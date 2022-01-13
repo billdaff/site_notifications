@@ -1,0 +1,6 @@
+site_notifications.site_notification_add:
+  route_name: site_notifications.site_notification_add
+  title: 'Add Site Notification'
+  appears_on:
+    - entity.site_notification.collection
+    - entity.site_notification.canonical

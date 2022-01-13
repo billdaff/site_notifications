@@ -1,0 +1,18 @@
+entity.site_notifications:
+  title: 'Site Notifications'
+  route_name: <nolink>
+  menu_name: entity.site_notification
+  description: 'Site Notifications'
+  parent: system.admin_content
+entity.site_notification.collection:
+  title: 'Site Notifications List'
+  route_name: entity.site_notification.collection
+  description: 'List Site Notifications'
+  parent: entity.site_notifications
+  weight: 0
+site_notifications.site_notification_add:
+  title: 'Add Site Notification'
+  route_name: site_notifications.site_notification_add
+  description: 'Add Site Notification'
+  parent: entity.site_notifications
+  weight: 1

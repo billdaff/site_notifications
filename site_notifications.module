@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * @file
+ * Functions to support Site Notifications.
+ */
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Core\Url;
+use Drupal\views\Views;
+
+/**
+ * Sets the notification on pages.
+ */
+function site_notifications_preprocess_page(&$variables) {
+  if (!\Drupal::service('router.admin_context')->isAdminRoute()) {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof NodeInterface) {
+      $notifications = get_site_notifications();
+      if (!empty($notifications)) {
+        $clean_notifications = [];
+        $variables['#attached']['library'][] = 'site_notifications/site-notification';
+
+        foreach ($notifications as $notification) {
+          $clean_notifications[$notification->getPosition()][] = [
+            "message" => $notification->getMessage(),
+            "fill" => $notification->getFill(),
+            "custom_revision_id" => 'notification-' . $notification->getPosition() . '-' . $notification->get('revision_id')->getValue()[0]['value'],
+          ];
+        }
+        $variables['#attached']['drupalSettings']['site_notifications']['site-notification'] = $clean_notifications;
+      }
+    }
+  }
+}
+
+/**
+ * Sets the notification on pages.
+ */
+function get_site_notifications() {
+  $published_entities = [];
+  $current_url = Url::fromRoute('<current>');
+  $path = $current_url->toString();
+
+  $entities = \Drupal::entityTypeManager()->getStorage('site_notification')->loadMultiple();
+  foreach ($entities as $entity) {
+    if (isset($entity->get('moderation_state')->value) && $entity->get('moderation_state')->getString() == 'published') {
+      if (isset($entity->get('all_pages')->value) && $entity->get('all_pages')->value == 1) {
+        $published_entities[] = $entity;
+        continue;
+      }
+      foreach ($entity->getLocations() as $location) {
+        $id = $location->id();
+        $alias = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $id);
+        if ($alias == $path) {
+          $published_entities[] = $entity;
+        }
+      }
+    }
+  }
+  return $published_entities;
+}
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function site_notifications_toolbar_alter(&$items) {
+  if (!\Drupal::currentUser()->hasPermission('add site_notification entity')) {
+    return;
+  }
+  $items['site_notifications'] = [
+    "#type" => "toolbar_item",
+    'tab' => [
+      '#type' => 'link',
+      '#title' => t('Site Notifications'),
+      '#url' => URL::fromRoute('entity.site_notification.collection'),
+    ],
+    '#wrapper_attributes' => [
+      "id" => "admin-toolbar-site-notifications-tab",
+    ],
+    '#cache' => [
+      'contexts' => [
+        'user.permissions',
+      ]
+    ],
+  ];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ *
+ * We need to invalidate cache other entities.
+ */
+function site_notifications_site_notification_presave(EntityInterface $entity) {
+  if ($entity->bundle() == 'site_notification') {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($entity->id());
+    if (isset($node->nid)){
+      Cache::invalidateTags($node->getCacheTags());
+      $locations = $entity->getLocations();
+      foreach($locations as $location){
+        $location_node = \Drupal::entityTypeManager()->getStorage('node')->load($location->id());
+        Cache::invalidateTags($location_node->getCacheTags());
+      }
+    }
+  }
+}

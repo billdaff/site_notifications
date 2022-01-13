@@ -1,0 +1,11 @@
+view site_notification entity:
+  title: 'View site_notification entity'
+add site_notification entity:
+  title: 'Add site_notification entity'
+edit site_notification entity:
+  title: 'Edit site_notification entity'
+delete site_notification entity:
+  title: 'Delete site_notification entity'
+administer site_notification entity:
+  title: 'Administer site_notification entity'
+  restrict access: TRUE

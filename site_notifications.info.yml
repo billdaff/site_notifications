@@ -1,0 +1,8 @@
+name: Site Notifications
+description: 'Sets site notifications on pages.'
+type: module
+core: 8.x
+core_version_requirement: ^8 || ^9
+package: Site Notification
+dependencies:
+  - content_moderation

@@ -1,0 +1,60 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - site_notifications
+  module:
+    - content_moderation
+    - site_notifications
+_core:
+  default_config_hash: V6-gKBTJE1OmOpM3-A9ZHw-i4Ben6w15DatwEbdWACs
+id: default_site_notification
+label: 'Default Site Notification'
+type: content_moderation
+type_settings:
+  states:
+    draft:
+      published: false
+      default_revision: false
+      label: Draft
+      weight: 0
+    expired:
+      published: false
+      default_revision: true
+      label: Expired
+      weight: 2
+    published:
+      label: Published
+      published: true
+      default_revision: true
+      weight: 1
+  transitions:
+    create_new_draft:
+      label: 'Create New Draft'
+      to: draft
+      weight: 0
+      from:
+        - draft
+        - expired
+        - published
+    expire:
+      label: Expired
+      from:
+        - draft
+        - expired
+        - published
+      to: expired
+      weight: 2
+    publish:
+      label: Publish
+      to: published
+      weight: 1
+      from:
+        - draft
+        - expired
+        - published
+  entity_types:
+    site_notification:
+      - site_notification
+  default_moderation_state: draft

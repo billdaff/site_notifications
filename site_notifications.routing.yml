@@ -1,0 +1,56 @@
+# Routes for Site Notifications
+entity.site_notification.canonical:
+  path: 'site_notification/{site_notification}'
+  defaults:
+  # Calls the view controller, defined in the annotation of the site_notification entity
+    _entity_view: 'site_notification'
+    _title: 'Site Notification Content'
+  requirements:
+  # Calls the access controller of the entity, $operation 'view'
+    _entity_access: 'site_notification.view'
+
+entity.site_notification.collection:
+  path: '/site_notification/list'
+  defaults:
+  # Calls the list controller, defined in the annotation of the site_notification entity.
+    _entity_list: 'site_notification'
+    _title: 'Site Notification List'
+  requirements:
+  # Checks for permission directly.
+
+    _permission: 'administer site_notification entity'
+site_notifications.site_notification_add:
+  path: '/site_notification/add'
+  defaults:
+  # Calls the form.add controller, defined in the site_notification entity.
+    _entity_form: site_notification.add
+    _title: 'Add Site Notification'
+  requirements:
+    _entity_create_access: 'site_notification'
+
+entity.site_notification.edit_form:
+  path: 'site_notification/{site_notification}/edit'
+  defaults:
+  # Calls the form.edit controller, defined in the site_notification entity.
+    _entity_form: site_notification.edit
+    _title: 'Edit Site Notification'
+  requirements:
+    _entity_access: 'site_notification.edit'
+
+entity.site_notification.delete_form:
+  path: 'site_notification/{site_notification}/delete'
+  defaults:
+    # Calls the form.delete controller, defined in the site_notification entity.
+    _entity_form: site_notification.delete
+    _title: 'Delete Site Notification'
+  requirements:
+    _entity_access: 'site_notification.delete'
+
+# Routes for any configs
+site_notifications.site_notification_settings:
+  path: 'admin/structure/site_notifications_settings'
+  defaults:
+    _form: '\Drupal\site_notifications\Form\SiteNotificationsSettingsForm'
+    _title: 'Site Notifications Settings'
+  requirements:
+    _permission: 'administer site_notification entity'

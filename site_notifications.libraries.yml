@@ -1,0 +1,8 @@
+site-notification:
+  version: 1.x
+  js:
+    js/site-notification.js: {preprocess: false}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.cookie
