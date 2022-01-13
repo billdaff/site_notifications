@@ -93,15 +93,11 @@ function site_notifications_toolbar_alter(&$items) {
  * We need to invalidate cache other entities.
  */
 function site_notifications_site_notification_presave(EntityInterface $entity) {
-  if ($entity->bundle() == 'site_notification') {
-    if ($entity->id()) {
-      $node = \Drupal::entityTypeManager()->getStorage('node')->load($entity->id());
-      Cache::invalidateTags($node->getCacheTags());
-      $locations = $entity->getLocations();
-      foreach ($locations as $location) {
-        $location_node = \Drupal::entityTypeManager()->getStorage('node')->load($location->id());
-        Cache::invalidateTags($location_node->getCacheTags());
-      }
+  if ($entity->bundle() == 'site_notification') {    
+    $locations = $entity->getLocations();
+    foreach ($locations as $location) {
+      $location_node = \Drupal::entityTypeManager()->getStorage('node')->load($location->id());
+      Cache::invalidateTags($location_node->getCacheTags());
     }
   }
 }

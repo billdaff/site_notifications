@@ -87,9 +87,8 @@ class SiteNotificationListBuilder extends EntityListBuilder {
     $message_status = $request->get('message_status');
     $entities = \Drupal::entityTypeManager()->getStorage('site_notification')->loadMultiple();
     $notifications = [];
-    $states = ['published', 'draft', 'expired'];
     foreach ($entities as $entity) {
-      if ($entity->get('moderation_state')->getString() == $message_status || $message_status == 'all') {
+      if ($entity->get('moderation_state')->getString() == $message_status || $message_status == 'all' || $message_status == NULL) {
         $notifications[] = $entity->getId();
       }
     }
