@@ -71,4 +71,5 @@ class SiteNotificationListBuilder extends EntityListBuilder {
     $row['status'] = $entity->get('moderation_state')->value;
     return $row + parent::buildRow($entity);
   }
+
 }

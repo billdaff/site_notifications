@@ -112,7 +112,7 @@ class SiteNotification extends EditorialContentEntityBase implements SiteNotific
   }
 
   /**
-   * {@inheritdoc}
+   * Gets the nodes that the notification should be on.
    */
   public function getLocations() {
     $referenceItem = $this->get('locations')->referencedEntities();
@@ -156,7 +156,7 @@ class SiteNotification extends EditorialContentEntityBase implements SiteNotific
   }
 
   /**
-   * {@inheritdoc}
+   * Sets the message for the Notification.
    */
   public function setMessage($message) {
     $this->set('message', $message);

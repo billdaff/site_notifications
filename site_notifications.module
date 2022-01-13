@@ -9,7 +9,6 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
-use Drupal\views\Views;
 
 /**
  * Sets the notification on pages.
@@ -83,7 +82,7 @@ function site_notifications_toolbar_alter(&$items) {
     '#cache' => [
       'contexts' => [
         'user.permissions',
-      ]
+      ],
     ],
   ];
 }
@@ -95,11 +94,11 @@ function site_notifications_toolbar_alter(&$items) {
  */
 function site_notifications_site_notification_presave(EntityInterface $entity) {
   if ($entity->bundle() == 'site_notification') {
-    $node = \Drupal::entityTypeManager()->getStorage('node')->load($entity->id());
-    if (isset($node->nid)){
+    if ($entity->id()) {
+      $node = \Drupal::entityTypeManager()->getStorage('node')->load($entity->id());
       Cache::invalidateTags($node->getCacheTags());
       $locations = $entity->getLocations();
-      foreach($locations as $location){
+      foreach ($locations as $location) {
         $location_node = \Drupal::entityTypeManager()->getStorage('node')->load($location->id());
         Cache::invalidateTags($location_node->getCacheTags());
       }

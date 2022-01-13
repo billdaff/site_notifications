@@ -46,7 +46,7 @@ class SiteNotificationFilterForm extends FormBase {
       $container->get('request_stack')
     );
   }
-  
+
   /**
    * Build Exposed Filter for list.
    *
