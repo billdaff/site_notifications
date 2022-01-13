@@ -1,6 +1,11 @@
 # Site Notifications 
 ## Introduction
-The Site Notifications module allows site owners to provide notifications on pages they specify. You can chose the location that the notification appears in and whether or not it will stretch across the screen.
+The Site Notifications module allows site owners to provide notifications on pages they specify. You can chose the location that the notification appears in and whether or not it will stretch across the screen. In the admin toolbar area will be a Site Notifications link that will send you to the listing page for Site Notifications. From here you can add a new one.
+  - Notification field is the text of your actual notification.
+  - All Pages checkbox will put the message on all of your public pages.
+  - Location field allows you to select specific pages, or nodes, to add the notification to.
+  - Position field allows you to select what area of the page you want the notification to appear on.
+  - Full Length checkbox will stretch the notification across the width of the browser.
 # Requirements
 This module requires the following module: 
 [Content Moderation](https://www.drupal.org/docs/8/core/modules/content-moderation/overview) Provided in Drupal Core.
