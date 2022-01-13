@@ -220,20 +220,26 @@ class SiteNotification extends EditorialContentEntityBase implements SiteNotific
     $fields['message'] = BaseFieldDefinition::create('string_long')
       ->setLabel(t('Notification'))
       ->setDescription(t('Notification to be displayed on selected page(s).'))
-      ->setSettings([
-        'default_value' => '',
-        'max_length' => 255,
-        'text_processing' => 0,
-      ])
-      ->setDisplayOptions('view', [
-        'label' => 'above',
-        'type' => 'string',
-        'weight' => 0,
-      ])
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'weight' => 0,
-      ])
+      ->setSettings(
+              [
+                'default_value' => '',
+                'max_length' => 255,
+                'text_processing' => 0,
+              ]
+          )
+      ->setDisplayOptions(
+              'view', [
+                'label' => 'above',
+                'type' => 'string',
+                'weight' => 0,
+              ]
+          )
+      ->setDisplayOptions(
+              'form', [
+                'type' => 'string_textfield',
+                'weight' => 0,
+              ]
+          )
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
@@ -241,10 +247,12 @@ class SiteNotification extends EditorialContentEntityBase implements SiteNotific
     $fields['all_pages'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t("All Pages"))
       ->setSetting('on_label', t("Will the notification be on all pages?"))
-      ->setDisplayOptions('form', [
-        'type' => 'boolean',
-        'weight' => 1,
-      ])
+      ->setDisplayOptions(
+              'form', [
+                'type' => 'boolean',
+                'weight' => 1,
+              ]
+          )
       ->setDisplayConfigurable('form', TRUE)
       ->setRevisionable(TRUE);
     $fields['locations'] = BaseFieldDefinition::create('entity_reference')
@@ -252,50 +260,60 @@ class SiteNotification extends EditorialContentEntityBase implements SiteNotific
       ->setDescription(t('The page(s) this notificaiton will appear on.'))
       ->setSetting('target_type', 'node')
       ->setSetting('handler', 'default')
-      ->setDisplayOptions('view', [
-        'label' => 'above',
-        'type' => 'entity_reference_label',
-        'weight' => 2,
-      ])
+      ->setDisplayOptions(
+              'view', [
+                'label' => 'above',
+                'type' => 'entity_reference_label',
+                'weight' => 2,
+              ]
+          )
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
-        'settings' => [
-          'match_operator' => 'CONTAINS',
-          'size' => 60,
-          'autocomplete_type' => 'tags',
-          'placeholder' => '',
-        ],
-        'weight' => 2,
-      ])
+      ->setDisplayOptions(
+              'form', [
+                'type' => 'entity_reference_autocomplete',
+                'settings' => [
+                  'match_operator' => 'CONTAINS',
+                  'size' => 60,
+                  'autocomplete_type' => 'tags',
+                  'placeholder' => '',
+                ],
+                'weight' => 2,
+              ]
+          )
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE);
     $fields['position'] = BaseFieldDefinition::create('list_string')
       ->setLabel(t('Position'))
       ->setDescription(t('Where the notification will display on page.'))
-      ->setSettings([
-        'allowed_values' => [
-          'topleft' => 'Top Left',
-          'topcenter' => 'Top Center',
-          'topright' => 'Top Right',
-          'leftcenter' => 'Left Center',
-          'center' => 'Center',
-          'rightcenter' => 'Right Center',
-          'bottomleft' => 'Bottom Left',
-          'bottomcenter' => 'Bottom Center',
-          'bottomright' => 'Bottom Right',
-        ],
-      ])
-      ->setDisplayOptions('view', [
-        'label' => 'above',
-        'type' => 'list_default',
-        'weight' => 7,
-      ])
-      ->setDisplayOptions('form', [
-        'type' => 'options_select',
-        'weight' => 7,
-      ])
+      ->setSettings(
+              [
+                'allowed_values' => [
+                  'topleft' => 'Top Left',
+                  'topcenter' => 'Top Center',
+                  'topright' => 'Top Right',
+                  'leftcenter' => 'Left Center',
+                  'center' => 'Center',
+                  'rightcenter' => 'Right Center',
+                  'bottomleft' => 'Bottom Left',
+                  'bottomcenter' => 'Bottom Center',
+                  'bottomright' => 'Bottom Right',
+                ],
+              ]
+          )
+      ->setDisplayOptions(
+              'view', [
+                'label' => 'above',
+                'type' => 'list_default',
+                'weight' => 7,
+              ]
+          )
+      ->setDisplayOptions(
+              'form', [
+                'type' => 'options_select',
+                'weight' => 7,
+              ]
+          )
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
@@ -303,10 +321,12 @@ class SiteNotification extends EditorialContentEntityBase implements SiteNotific
     $fields['fill'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t("Full Length"))
       ->setSetting('on_label', t("Will the notification be full length?"))
-      ->setDisplayOptions('form', [
-        'type' => 'boolean',
-        'weight' => 8,
-      ])
+      ->setDisplayOptions(
+              'form', [
+                'type' => 'boolean',
+                'weight' => 8,
+              ]
+          )
       ->setDisplayConfigurable('form', TRUE)
       ->setRevisionable(TRUE);
     $fields['created'] = BaseFieldDefinition::create('created')

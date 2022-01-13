@@ -21,10 +21,12 @@ class SiteNotificationListBuilder extends EntityListBuilder {
    */
   public function render() {
     $build['description'] = [
-      '#markup' => $this->t('Site Notificaitons implements a notification system for your site. These messages are fieldable entities that are displayed on specified pages. You can manage the fields on the <a href="@adminlink">Site Notifications admin page</a>.', [
-        '@adminlink' => \Drupal::urlGenerator()
-          ->generateFromRoute('site_notifications.site_notification_settings'),
-      ]),
+      '#markup' => $this->t(
+          'Site Notificaitons implements a notification system for your site. These messages are fieldable entities that are displayed on specified pages. You can manage the fields on the <a href="@adminlink">Site Notifications admin page</a>.', [
+            '@adminlink' => \Drupal::urlGenerator()
+              ->generateFromRoute('site_notifications.site_notification_settings'),
+          ]
+      ),
     ];
     $build['form'] = \Drupal::formBuilder()->getForm('Drupal\site_notifications\Form\SiteNotificationFilterForm');
 
@@ -52,7 +54,9 @@ class SiteNotificationListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
 
-    /** @var \Drupal\site_notifications\Entity\SiteNotification $entity */
+    /**
+* @var \Drupal\site_notifications\Entity\SiteNotification $entity
+*/
     $row['message'] = $entity->message->value;
     $urls = $entity->getLocations();
     $row['locations'] = '';
@@ -70,6 +74,26 @@ class SiteNotificationListBuilder extends EntityListBuilder {
     }
     $row['status'] = $entity->get('moderation_state')->value;
     return $row + parent::buildRow($entity);
+  }
+
+  /**
+   * Loads entity IDs using a pager sorted by the entity id.
+   *
+   * @return array
+   *   An array of entity IDs.
+   */
+  public function getEntityIds() {
+    $request = \Drupal::request();
+    $message_status = $request->get('message_status');
+    $entities = \Drupal::entityTypeManager()->getStorage('site_notification')->loadMultiple();
+    $notifications = [];
+    $states = ['published', 'draft', 'expired'];
+    foreach ($entities as $entity) {
+      if ($entity->get('moderation_state')->getString() == $message_status || $message_status == 'all') {
+        $notifications[] = $entity->getId();
+      }
+    }
+    return $notifications;
   }
 
 }

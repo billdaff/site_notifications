@@ -49,10 +49,12 @@ class SiteNotificationDeleteForm extends ContentEntityConfirmFormBase {
     $entity = $this->getEntity();
     $entity->delete();
 
-    $this->logger('site_notification')->notice('deleted notification %id.',
-      [
-        '%id' => $this->entity->label(),
-      ]);
+    $this->logger('site_notification')->notice(
+          'deleted notification %id.',
+          [
+            '%id' => $this->entity->label(),
+          ]
+      );
     // Redirect to term list after delete.
     $form_state->setRedirect('entity.site_notification.collection');
   }

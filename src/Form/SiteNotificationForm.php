@@ -18,7 +18,9 @@ class SiteNotificationForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    /** @var \Drupal\site_notifications\Entity\SiteNotification $entity */
+    /**
+* @var \Drupal\site_notifications\Entity\SiteNotification $entity
+*/
     $form = parent::buildForm($form, $form_state);
 
     $form['all_pages']['widget']['value']['#ajax'] = [
@@ -58,19 +60,23 @@ class SiteNotificationForm extends ContentEntityForm {
     $values = $form_state->getValues();
     $response = new AjaxResponse();
     if ($values['all_pages']['value'] == 1) {
-      $response->addCommand(new InvokeCommand(
-        '#edit-locations-wrapper',
-        'attr',
-        ['hidden', 'hidden'])
-      );
+      $response->addCommand(
+            new InvokeCommand(
+                '#edit-locations-wrapper',
+                'attr',
+                ['hidden', 'hidden']
+            )
+        );
 
     }
     else {
-      $response->addCommand(new InvokeCommand(
-        '#edit-locations-wrapper',
-        'removeAttr',
-        ['hidden'])
-          );
+      $response->addCommand(
+            new InvokeCommand(
+                '#edit-locations-wrapper',
+                'removeAttr',
+                ['hidden']
+            )
+        );
     }
     return $response;
   }
